@@ -62,17 +62,21 @@
 }
         /* Trang 2 Styles */
         #page2 {
+    display: none;
     flex-direction: column;
-    align-items: center; /* Căn giữa tất cả nội dung theo chiều ngang */
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
+    align-items: center;
+    justify-content: space-between; /* Đẩy tiêu đề lên trên và nút xuống dưới */
+    height: 100vh; /* Cố định chiều cao bằng màn hình */
+    padding: 20px 0;
+    box-sizing: border-box;
+    overflow: hidden; /* Ngăn cuộn trang */
 }
 #tree-area {
-    position: relative;
-    width: 500px; 
-    height: 550px;
-    margin: 0px auto; /* Căn giữa cái cây */
+   position: relative;
+    width: 80vw; /* Sử dụng đơn vị vw để tự thích nghi với màn hình */
+    max-width: 650px; /* Độ rộng tối đa để không quá to trên máy tính */
+    height: 60vh; /* Chiều cao chiếm 60% màn hình */
+    margin: 10px auto;
     background-image: url('Images/growingtrees.gif');
     background-size: contain;
     background-repeat: no-repeat;
@@ -86,12 +90,12 @@
     margin-top: 20px;
 }
 /* Đảm bảo hoa vẫn giữ style cũ */
-..flower-container {
+flower-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 999;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    transform: translate(-50%, -100%); /* Căn chỉnh để hoa mọc chính xác tại điểm tọa độ */
 }
 
 .flower-img {
@@ -110,7 +114,7 @@
     font-family: 'Montserrat', sans-serif;
     white-space: nowrap;
 }
-        :root { 
+        root { 
     --primary-color: #2e8b57; 
     --bg-color: #fdf5e6; 
     --tree-green: #2e8b57; 
