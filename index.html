@@ -44,27 +44,25 @@
 /* Khung chứa cây: Cố định kích thước để không bị 'bay' */
 #tree-area {
     position: relative;
-    width: 95vw;          /* Cây chiếm gần hết chiều ngang màn hình điện thoại */
-    max-width: 500px;     /* Giới hạn độ to tối đa trên máy tính */
-    aspect-ratio: 1/1;    /* Ép khung thành hình vuông để tọa độ hoa không bị lệch */
-    margin: 10px auto;
+    width: 300px;  /* Giảm chiều ngang để hoa không bị bay ra rìa */
+    height: 300px; /* Giữ khung hình vuông */
+    margin: 0 auto;
     background-image: url('Images/growingtrees.gif');
-    background-size: contain;
+    background-size: 100% 100%; /* Ép ảnh khít khung */
     background-repeat: no-repeat;
-    background-position: center bottom;
+    background-position: center;
+    /* border: 1px solid red; */ /* Mở dòng này để bạn thấy khung cây nằm ở đâu */
 }
-/* Nút bấm: Sửa lỗi bị dài ngoằng */
-.cta-btn { 
-    display: inline-block; 
-    width: fit-content; 
-    min-width: 180px; 
-    background: var(--primary-color); 
-    color: white; 
-    border: none; 
-    padding: 12px 25px; 
-    border-radius: 50px; 
-    font-weight: bold; 
-    cursor: pointer; 
+.cta-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#page2 .cta-btn {
+    width: 200px !important; /* Ép cứng chiều rộng nút */
+    display: block;
 }
 .flower-img {
     width: 40px;          /* Thu nhỏ hoa lại một chút để tán cây trông dày hơn */
@@ -115,15 +113,14 @@
         <button class="cta-btn" onclick="startJourney()">Click here to see you in my journey</button>
     </div>
 
-    <div id="page2" class="page">
+   <div id="page2" class="page">
     <h2 class="thank-you-msg">Thank you for being my beautiful flower!</h2>
-        <div id="tree-area"></div>
-        <div style="width: 100%; display: flex; justify-content: center; margin-top: 10px;">
+    <div id="tree-area"></div>
+    <div class="cta-container">
         <button class="cta-btn" style="background: var(--tree-green);" onclick="location.reload()">
             Back to homepage
         </button>
     </div>
-</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
