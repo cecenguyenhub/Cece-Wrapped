@@ -219,16 +219,19 @@ onChildAdded(flowersRef, (snapshot) => {
 // 3. Cập nhật startJourney để gửi kèm tên
 window.startJourney = function() {
     const nameInput = document.getElementById('userName').value;
-
-    // LỆNH CHUYỂN TRANG (Phải có dòng này nút mới chạy)
-    document.getElementById('page1').classList.remove('active');
-    document.getElementById('page1').style.display = 'none';
-    document.getElementById('page2').style.display = 'flex';
-
-    // Reset lại GIF cây (để nó chạy lại từ đầu)
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
     const treeArea = document.getElementById('tree-area');
+
+    // Bước 1: Chuyển đổi hiển thị giữa các trang
+    page1.classList.remove('active');
+    page1.style.display = 'none';
+    page2.style.display = 'flex'; // Kích hoạt hiển thị Trang 2
+
+    // Bước 2: Kích hoạt lại hiệu ứng cây mọc (GIF)
     treeArea.style.backgroundImage = "url('Images/growingtrees.gif?t=" + new Date().getTime() + "')";
 
+    // Bước 3: Logic tính toán vị trí hoa mọc (như bạn đã có)
     setTimeout(() => {
         const rect = treeArea.getBoundingClientRect();
         const existingFlowers = document.querySelectorAll('.flower-container');
@@ -239,7 +242,7 @@ window.startJourney = function() {
 
         do {
             isOverlapping = false;
-            // Tọa độ đã tối ưu cho tán lá
+            // Tọa độ ngẫu nhiên trong vùng tán lá
             randomX = Math.floor(Math.random() * (rect.width * 0.5)) + (rect.width * 0.25);
             randomY = Math.floor(Math.random() * (rect.height * 0.35)) + (rect.height * 0.15);
 
@@ -252,7 +255,7 @@ window.startJourney = function() {
             attempts++;
         } while (isOverlapping && attempts < 50);
 
-        // Gửi lên Firebase
+        // Bước 4: Lưu dữ liệu lên Firebase
         push(flowersRef, { 
             x: randomX, 
             y: randomY,
