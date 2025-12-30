@@ -90,7 +90,7 @@
     margin-top: 20px;
 }
 /* Đảm bảo hoa vẫn giữ style cũ */
-flower-container {
+.flower-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,7 +116,7 @@ flower-container {
     overflow: hidden;
     text-overflow: ellipsis; /* Nếu tên quá dài sẽ hiện dấu ... */
 }
-        root { 
+        :root { 
     --primary-color: #2e8b57; 
     --bg-color: #fdf5e6; 
     --tree-green: #2e8b57; 
@@ -219,41 +219,40 @@ onChildAdded(flowersRef, (snapshot) => {
 // 3. Cập nhật startJourney để gửi kèm tên
 window.startJourney = function() {
     const nameInput = document.getElementById('userName').value;
-    // ... code chuyển trang giữ nguyên ...
+
+    // LỆNH CHUYỂN TRANG (Phải có dòng này nút mới chạy)
+    document.getElementById('page1').classList.remove('active');
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'flex';
+
+    // Reset lại GIF cây (để nó chạy lại từ đầu)
+    const treeArea = document.getElementById('tree-area');
+    treeArea.style.backgroundImage = "url('Images/growingtrees.gif?t=" + new Date().getTime() + "')";
 
     setTimeout(() => {
-        const treeArea = document.getElementById('tree-area');
         const rect = treeArea.getBoundingClientRect();
-        
-        // Lấy danh sách tất cả hoa đang có trên màn hình để so sánh
         const existingFlowers = document.querySelectorAll('.flower-container');
         
         let randomX, randomY;
         let isOverlapping;
-        let attempts = 0; // Giới hạn số lần thử để tránh treo máy
+        let attempts = 0;
 
         do {
             isOverlapping = false;
-            // 1. Tạo tọa độ trong tán lá (tỉ lệ đã chỉnh cho cây to)
+            // Tọa độ đã tối ưu cho tán lá
             randomX = Math.floor(Math.random() * (rect.width * 0.5)) + (rect.width * 0.25);
             randomY = Math.floor(Math.random() * (rect.height * 0.35)) + (rect.height * 0.15);
 
-            // 2. Kiểm tra xem có đè lên hoa nào cũ không
             existingFlowers.forEach(flower => {
                 const fx = parseFloat(flower.style.left);
                 const fy = parseFloat(flower.style.top);
-                
-                // Khoảng cách an toàn giữa 2 tâm hoa (khoảng 70-80px để tránh đè cả tên)
                 const distance = Math.sqrt(Math.pow(randomX - fx, 2) + Math.pow(randomY - fy, 2));
-                if (distance < 75) { 
-                    isOverlapping = true;
-                }
+                if (distance < 75) isOverlapping = true;
             });
-            
             attempts++;
-        } while (isOverlapping && attempts < 50); // Thử tối đa 50 lần tìm chỗ trống
+        } while (isOverlapping && attempts < 50);
 
-        // 3. Gửi tọa độ "sạch" lên Firebase
+        // Gửi lên Firebase
         push(flowersRef, { 
             x: randomX, 
             y: randomY,
