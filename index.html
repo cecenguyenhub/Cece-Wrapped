@@ -44,15 +44,15 @@
 /* Khung chứa cây: Cố định kích thước để không bị 'bay' */
 #tree-area {
     position: relative;
-    width: 350px;       /* Chiều ngang cố định để tính % hoa cho chuẩn */
-    height: 400px;      /* Chiều cao cố định */
-    margin: 20px auto;
+    width: 95vw;          /* Cây chiếm gần hết chiều ngang màn hình điện thoại */
+    max-width: 500px;     /* Giới hạn độ to tối đa trên máy tính */
+    aspect-ratio: 1/1;    /* Ép khung thành hình vuông để tọa độ hoa không bị lệch */
+    margin: 10px auto;
     background-image: url('Images/growingtrees.gif');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: bottom center;
+    background-position: center bottom;
 }
-
 /* Nút bấm: Sửa lỗi bị dài ngoằng */
 .cta-btn { 
     display: inline-block; 
@@ -66,7 +66,22 @@
     font-weight: bold; 
     cursor: pointer; 
 }
-
+.flower-img {
+    width: 40px;          /* Thu nhỏ hoa lại một chút để tán cây trông dày hơn */
+    height: auto;
+}
+.flower-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* QUAN TRỌNG: Giữ tâm hoa đúng tọa độ x, y */
+    transform: translate(-50%, -50%); 
+    z-index: 10;
+    /* Gắn hiệu ứng nở hoa */
+    animation: bloom 0.8s ease forwards;
+    pointer-events: none;
+}
 /* Tiêu đề trang 2 */
 .thank-you-msg {
     font-family: 'Dancing Script', cursive;
@@ -149,17 +164,17 @@
         drawFlower(data.x, data.y, data.name);
     });
 
-    window.startJourney = function() {
+   window.startJourney = function() {
     const nameInput = document.getElementById('userName').value.trim() || "Friend";
     document.getElementById('page1').style.display = 'none';
     document.getElementById('page2').style.display = 'flex';
 
     setTimeout(() => {
-        // Tọa độ chuẩn cho cây Sunflower của bạn
-        // X: 30% đến 70% (giữa cây)
-        // Y: 20% đến 45% (vùng lá xanh)
-        const randomX = Math.floor(Math.random() * 40) + 30; 
-        const randomY = Math.floor(Math.random() * 25) + 20; 
+        // TỌA ĐỘ VÀNG (Dựa trên khung hình vuông 1/1):
+        // X: 25% đến 75% (loại bỏ 2 bên rìa ngoài tán lá)
+        // Y: 15% đến 45% (chỉ nằm ở phần ngọn và tán lá, không rơi xuống gốc)
+        const randomX = Math.floor(Math.random() * 50) + 25; 
+        const randomY = Math.floor(Math.random() * 30) + 15; 
 
         push(flowersRef, { 
             x: randomX, 
