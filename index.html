@@ -72,15 +72,13 @@
     overflow: hidden; /* Ngăn cuộn trang */
 }
 #tree-area {
-   position: relative;
-    width: 80vw; /* Sử dụng đơn vị vw để tự thích nghi với màn hình */
-    max-width: 650px; /* Độ rộng tối đa để không quá to trên máy tính */
-    height: 60vh; /* Chiều cao chiếm 60% màn hình */
-    margin: 10px auto;
-    background-image: url('Images/growingtrees.gif');
+  position: relative; /* Bắt buộc để hoa bám vào khung này */
+    width: 90vw;
+    height: 55vh;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: bottom center;
+    background-position: center bottom;
+    margin: 0 auto;
 }
 
 /* Sửa lại nút Back to homepage để không bị dài ngoằng */
@@ -91,11 +89,12 @@
 }
 /* Đảm bảo hoa vẫn giữ style cũ */
 .flower-container {
-    display: flex;
+display: flex;
     flex-direction: column;
     align-items: center;
     position: absolute;
-    transform: translate(-50%, -100%); /* Căn chỉnh để hoa mọc chính xác tại điểm tọa độ */
+    transform: translate(-50%, -50%); /* Giúp hoa nằm đúng điểm tọa độ */
+    z-index: 10;
 }
 
 .flower-img {
@@ -164,11 +163,9 @@
 </div>
 
  <script type="module">
-  // 1. Nhập thư viện Firebase
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  // 2. Cấu hình Firebase từ ảnh của bạn
   const firebaseConfig = {
     apiKey: "AIzaSyC5ZBRxI1R3a6hQr-d8_XW2Gc3POjgJCCE",
     authDomain: "cecewrapped.firebaseapp.com",
@@ -179,90 +176,62 @@
     appId: "1:19184758276:web:f718eefc721e51a71ccf51"
   };
 
-  // Khởi tạo
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   const flowersRef = ref(db, 'flowers');
 
-  // 3. Hàm vẽ hoa (Sử dụng Sunflower.png đã tách nền)
   function drawFlower(x, y, name) {
     const treeArea = document.getElementById('tree-area');
-    
-    // Tạo một khối bao quanh cả hoa và tên
     const flowerContainer = document.createElement('div');
     flowerContainer.className = 'flower-container';
-    flowerContainer.style.left = x + 'px';
-    flowerContainer.style.top = y + 'px';
-    flowerContainer.style.position = 'absolute';
+    
+    // Sử dụng % để hoa giữ đúng vị trí trên mọi màn hình
+    flowerContainer.style.left = x + '%';
+    flowerContainer.style.top = y + '%';
 
-    // Tạo hình ảnh hoa
     const flowerImg = document.createElement('img');
     flowerImg.src = 'Images/Sunflower.png';
-    flowerImg.className = 'flower-img'; // Đổi class từ .flower thành .flower-img
+    flowerImg.className = 'flower-img';
 
-    // Tạo nhãn tên
     const nameTag = document.createElement('span');
     nameTag.className = 'flower-name';
-    nameTag.innerText = name || "Friend"; // Nếu không nhập tên sẽ hiện "Friend"
+    nameTag.innerText = name || "Friend";
 
     flowerContainer.appendChild(flowerImg);
     flowerContainer.appendChild(nameTag);
     treeArea.appendChild(flowerContainer);
-}
+  }
 
-// 2. Cập nhật onChildAdded để đọc thêm trường 'name'
-onChildAdded(flowersRef, (snapshot) => {
+  onChildAdded(flowersRef, (snapshot) => {
     const data = snapshot.val();
     drawFlower(data.x, data.y, data.name);
-});
+  });
 
-// 3. Cập nhật startJourney để gửi kèm tên
-window.startJourney = function() {
+  // PHẦN QUAN TRỌNG: Sửa nút bấm và tọa độ tán lá
+  window.startJourney = function() {
     const nameInput = document.getElementById('userName').value;
-    const page1 = document.getElementById('page1');
-    const page2 = document.getElementById('page2');
-    const treeArea = document.getElementById('tree-area');
+    
+    // 1. Chuyển trang ngay lập tức
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'flex';
 
-    // Bước 1: Chuyển đổi hiển thị giữa các trang
-    page1.classList.remove('active');
-    page1.style.display = 'none';
-    page2.style.display = 'flex'; // Kích hoạt hiển thị Trang 2
-
-    // Bước 2: Kích hoạt lại hiệu ứng cây mọc (GIF)
-    treeArea.style.backgroundImage = "url('Images/growingtrees.gif?t=" + new Date().getTime() + "')";
-
-    // Bước 3: Logic tính toán vị trí hoa mọc (như bạn đã có)
+    // 2. Chờ cây mọc rồi mới tính toán vị trí hoa
     setTimeout(() => {
-        const rect = treeArea.getBoundingClientRect();
-        const existingFlowers = document.querySelectorAll('.flower-container');
-        
         let randomX, randomY;
-        let isOverlapping;
-        let attempts = 0;
+        
+        // Tọa độ tính theo % của khung #tree-area để luôn nằm trong tán
+        // X: từ 30% đến 70% chiều ngang
+        // Y: từ 20% đến 50% chiều dọc (đây là khu vực tán lá)
+        randomX = Math.floor(Math.random() * 40) + 30; 
+        randomY = Math.floor(Math.random() * 30) + 20; 
 
-        do {
-            isOverlapping = false;
-            // Tọa độ ngẫu nhiên trong vùng tán lá
-            randomX = Math.floor(Math.random() * (rect.width * 0.5)) + (rect.width * 0.25);
-            randomY = Math.floor(Math.random() * (rect.height * 0.35)) + (rect.height * 0.15);
-
-            existingFlowers.forEach(flower => {
-                const fx = parseFloat(flower.style.left);
-                const fy = parseFloat(flower.style.top);
-                const distance = Math.sqrt(Math.pow(randomX - fx, 2) + Math.pow(randomY - fy, 2));
-                if (distance < 75) isOverlapping = true;
-            });
-            attempts++;
-        } while (isOverlapping && attempts < 50);
-
-        // Bước 4: Lưu dữ liệu lên Firebase
         push(flowersRef, { 
             x: randomX, 
             y: randomY,
             name: nameInput || "Friend"
         });
     }, 1500);
-};
+  };
 </script>
 </body>
 </html>
