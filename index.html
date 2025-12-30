@@ -28,17 +28,50 @@
         .img-5 { top: 30%; left: 32%; --rot: 0deg; z-index: 5; animation: float 4.5s infinite; }
 
         /* Trang 2 Styles */
-        #page2 { height: 100vh; justify-content: space-around; padding: 10px 0; }
-        #tree-area { 
-            position: relative; width: 100%; max-width: 550px; height: 55vh; margin: 0 auto;
-            background-image: url('Images/growingtrees.gif');
-            background-size: contain; background-repeat: no-repeat; background-position: center bottom;
-        }
+        #page2 {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Đẩy nội dung lên trên, không dùng space-around */
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 20px;
+    background-color: #fff5f5;
+    box-sizing: border-box;
+}
 
-        .flower-container { 
-            position: absolute; display: flex; flex-direction: column; align-items: center; 
-            transform: translate(-50%, -50%); z-index: 10; animation: bloom 0.8s ease forwards;
-        }
+/* Khung chứa cây: Phải cố định để hoa bám theo */
+#tree-area {
+    position: relative;
+    width: 90vw;
+    max-width: 500px; /* Giới hạn độ rộng để không bị vỡ trên máy tính */
+    height: 400px;    /* Cố định chiều cao thay vì dùng vh để tránh bị nhảy */
+    margin: 20px auto;
+    background-image: url('Images/growingtrees.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    /* border: 1px dashed #ccc; */ /* Bật dòng này nếu bạn muốn xem khung giới hạn của cây */
+}
+
+/* Nút bấm: Ép kiểu để không bị kéo dài */
+#page2 .cta-btn {
+    width: auto !important;
+    min-width: 200px;
+    margin-top: 30px;
+    display: inline-block; /* Quan trọng để nút không bị dãn hết chiều ngang */
+}
+
+/* Hoa: Đảm bảo luôn nằm đúng tâm */
+.flower-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: none; /* Để hoa không ghi đè lên các sự kiện khác */
+}
         @keyframes bloom {
             0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
