@@ -105,14 +105,16 @@ flower-container {
 }
 
 .flower-name {
-    font-size: 15px;
-    color: #555;
-    background: rgba(255, 255, 255, 0.7);
-    padding: 1px 5px;
-    border-radius: 10px;
-    margin-top: -5px; /* Đẩy tên lên sát hoa */
-    font-family: 'Montserrat', sans-serif;
+   font-size: 11px;
+    background: rgba(255, 255, 255, 0.85); /* Làm nền hơi trong suốt để nhìn xuyên qua được lá */
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-top: -2px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     white-space: nowrap;
+    max-width: 80px; /* Giới hạn độ dài tên */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Nếu tên quá dài sẽ hiện dấu ... */
 }
         root { 
     --primary-color: #2e8b57; 
@@ -216,27 +218,48 @@ onChildAdded(flowersRef, (snapshot) => {
 
 // 3. Cập nhật startJourney để gửi kèm tên
 window.startJourney = function() {
-    // ... các đoạn code cũ giữ nguyên ...
+    const nameInput = document.getElementById('userName').value;
+    // ... code chuyển trang giữ nguyên ...
 
     setTimeout(() => {
-        const nameInput = document.getElementById('userName').value;
         const treeArea = document.getElementById('tree-area');
-        
-        // Lấy kích thước thực tế của khung cây lúc đó
         const rect = treeArea.getBoundingClientRect();
         
-        // Tính toán tọa độ để hoa luôn nằm trong tán lá (phần trên của cây)
-        // randomX: Từ 25% đến 75% chiều rộng khung cây
-        // randomY: Từ 10% đến 45% chiều cao khung cây (để hoa đậu trên lá)
-        const randomX = Math.floor(Math.random() * (rect.width * 0.5)) + (rect.width * 0.25);
-        const randomY = Math.floor(Math.random() * (rect.height * 0.35)) + (rect.height * 0.1);
+        // Lấy danh sách tất cả hoa đang có trên màn hình để so sánh
+        const existingFlowers = document.querySelectorAll('.flower-container');
+        
+        let randomX, randomY;
+        let isOverlapping;
+        let attempts = 0; // Giới hạn số lần thử để tránh treo máy
 
+        do {
+            isOverlapping = false;
+            // 1. Tạo tọa độ trong tán lá (tỉ lệ đã chỉnh cho cây to)
+            randomX = Math.floor(Math.random() * (rect.width * 0.5)) + (rect.width * 0.25);
+            randomY = Math.floor(Math.random() * (rect.height * 0.35)) + (rect.height * 0.15);
+
+            // 2. Kiểm tra xem có đè lên hoa nào cũ không
+            existingFlowers.forEach(flower => {
+                const fx = parseFloat(flower.style.left);
+                const fy = parseFloat(flower.style.top);
+                
+                // Khoảng cách an toàn giữa 2 tâm hoa (khoảng 70-80px để tránh đè cả tên)
+                const distance = Math.sqrt(Math.pow(randomX - fx, 2) + Math.pow(randomY - fy, 2));
+                if (distance < 75) { 
+                    isOverlapping = true;
+                }
+            });
+            
+            attempts++;
+        } while (isOverlapping && attempts < 50); // Thử tối đa 50 lần tìm chỗ trống
+
+        // 3. Gửi tọa độ "sạch" lên Firebase
         push(flowersRef, { 
             x: randomX, 
             y: randomY,
             name: nameInput || "Friend"
         });
-    }, 1500); // Giảm thời gian chờ mọc hoa xuống 1.5 giây cho nhanh
+    }, 1500);
 };
 </script>
 </body>
