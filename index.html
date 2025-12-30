@@ -28,49 +28,51 @@
         .img-5 { top: 30%; left: 32%; --rot: 0deg; z-index: 5; animation: float 4.5s infinite; }
 
         /* Trang 2 Styles */
-        #page2 {
+#page2 {
     display: none;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Đẩy nội dung lên trên, không dùng space-around */
+    justify-content: center; /* Đưa nội dung vào giữa theo chiều dọc */
     width: 100%;
     min-height: 100vh;
-    padding-top: 20px;
     background-color: #fff5f5;
     box-sizing: border-box;
+    padding: 20px;
+    overflow: hidden;
 }
 
-/* Khung chứa cây: Phải cố định để hoa bám theo */
+/* Khung chứa cây: Cố định kích thước để không bị 'bay' */
 #tree-area {
     position: relative;
-    width: 90vw;
-    max-width: 500px; /* Giới hạn độ rộng để không bị vỡ trên máy tính */
-    height: 400px;    /* Cố định chiều cao thay vì dùng vh để tránh bị nhảy */
+    width: 350px;       /* Chiều ngang cố định để tính % hoa cho chuẩn */
+    height: 400px;      /* Chiều cao cố định */
     margin: 20px auto;
     background-image: url('Images/growingtrees.gif');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: bottom center;
-    /* border: 1px dashed #ccc; */ /* Bật dòng này nếu bạn muốn xem khung giới hạn của cây */
 }
 
-/* Nút bấm: Ép kiểu để không bị kéo dài */
-#page2 .cta-btn {
-    width: auto !important;
-    min-width: 200px;
-    margin-top: 30px;
-    display: inline-block; /* Quan trọng để nút không bị dãn hết chiều ngang */
+/* Nút bấm: Sửa lỗi bị dài ngoằng */
+.cta-btn { 
+    display: inline-block; 
+    width: fit-content; 
+    min-width: 180px; 
+    background: var(--primary-color); 
+    color: white; 
+    border: none; 
+    padding: 12px 25px; 
+    border-radius: 50px; 
+    font-weight: bold; 
+    cursor: pointer; 
 }
 
-/* Hoa: Đảm bảo luôn nằm đúng tâm */
-.flower-container {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    pointer-events: none; /* Để hoa không ghi đè lên các sự kiện khác */
+/* Tiêu đề trang 2 */
+.thank-you-msg {
+    font-family: 'Dancing Script', cursive;
+    color: var(--tree-green);
+    font-size: 1.8rem;
+    margin: 0;
 }
         @keyframes bloom {
             0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
@@ -100,9 +102,13 @@
 
     <div id="page2" class="page">
     <h2 class="thank-you-msg">Thank you for being my beautiful flower!</h2>
-    <div id="tree-area"></div>
-    <div> <button class="cta-btn" style="background: var(--tree-green);" onclick="location.reload()">Back to homepage</button>
+        <div id="tree-area"></div>
+        <div style="width: 100%; display: flex; justify-content: center; margin-top: 10px;">
+        <button class="cta-btn" style="background: var(--tree-green);" onclick="location.reload()">
+            Back to homepage
+        </button>
     </div>
+</div>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -149,11 +155,11 @@
     document.getElementById('page2').style.display = 'flex';
 
     setTimeout(() => {
-        // Tọa độ đã căn chỉnh cho cái cây trong ảnh của bạn:
-        // X: 35% đến 65% là vùng tán lá chính diện
-        // Y: 25% đến 55% là vùng từ đỉnh cây đến giữa thân lá
-        const randomX = Math.floor(Math.random() * 30) + 35; 
-        const randomY = Math.floor(Math.random() * 30) + 25; 
+        // Tọa độ chuẩn cho cây Sunflower của bạn
+        // X: 30% đến 70% (giữa cây)
+        // Y: 20% đến 45% (vùng lá xanh)
+        const randomX = Math.floor(Math.random() * 40) + 30; 
+        const randomY = Math.floor(Math.random() * 25) + 20; 
 
         push(flowersRef, { 
             x: randomX, 
