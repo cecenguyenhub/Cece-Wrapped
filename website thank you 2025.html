@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cece Wrapped 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-color: #2e8b57; --bg-color: #fff5f5; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; background-color: var(--bg-color); text-align: center; }
+        
+        /* Page Logic */
+        .page { display: none; min-height: 100vh; padding: 40px 20px; box-sizing: border-box; }
+        .active { display: flex; flex-direction: column; align-items: center; }
+
+        /* Trang 1 Styles */
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: #d63384; margin-bottom: 10px; }
+        .body-text { max-width: 600px; font-size: 1.1rem; line-height: 1.6; color: #444; }
+        .recap-img { width: 90%; max-width: 512px; border-radius: 15px; margin: 30px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        /* Button Styles */
+        .cta-btn { background-color: #d63384; color: white; border: none; padding: 15px 30px; border-radius: 50px; 
+                   font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1rem; }
+        .cta-btn:hover { transform: scale(1.05); background-color: #b92a6e; }
+/* Khung chứa tập hợp ảnh */
+.recap-collage {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+    margin: 30px auto;
+}
+
+/* Định dạng chung cho các ảnh trong collage */
+.recap-collage img {
+    position: absolute;
+    width: 180px; /* Độ rộng ảnh nhỏ lại để xếp được nhiều */
+    height: 120px;
+    object-fit: cover;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng bay ra bay vô (Floating) */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(var(--rot)); }
+    50% { transform: translateY(-15px) rotate(calc(var(--rot) + 2deg)); }
+    100% { transform: translateY(0px) rotate(var(--rot)); }
+}
+
+/* Gán hiệu ứng và vị trí riêng cho từng ảnh */
+.img-1 { top: 10%; left: 5%; --rot: -10deg; animation: float 4s ease-in-out infinite; }
+.img-2 { top: 5%; right: 5%; --rot: 8deg; animation: float 5s ease-in-out infinite 1s; }
+.img-3 { bottom: 10%; left: 10%; --rot: -5deg; animation: float 3.5s ease-in-out infinite 0.5s; }
+.img-4 { bottom: 5%; right: 15%; --rot: 12deg; animation: float 6s ease-in-out infinite 2s; }
+.img-5 { top: 30%; left: 30%; --rot: 0deg; z-index: 5; animation: float 4.5s ease-in-out infinite; } /* Ảnh trung tâm */
+
+/* Khi di chuột vào ảnh nào thì ảnh đó nổi lên */
+.recap-collage img:hover {
+    transform: scale(1.2) rotate(0deg) !important;
+    z-index: 100;
+}
+        /* Trang 2 Styles */
+        #page2 {
+    flex-direction: column;
+    align-items: center; /* Căn giữa tất cả nội dung theo chiều ngang */
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+}
+#tree-area {
+    position: relative;
+    width: 600px; 
+    height: 650px;
+    margin: 0px auto; /* Căn giữa cái cây */
+    background-image: url('Images/growingtrees.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+}
+
+/* Sửa lại nút Back to homepage để không bị dài ngoằng */
+#page2 .cta-btn {
+    width: fit-content;
+    padding: 10px 25px;
+    margin-top: 20px;
+}
+/* Đảm bảo hoa vẫn giữ style cũ */
+..flower-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+}
+
+.flower-img {
+    width: 60px; /* Nhỏ lại một chút để nhường chỗ cho tên */
+    height: auto;
+    animation: bloom 0.8s ease forwards;
+}
+
+.flower-name {
+    font-size: 30px;
+    color: #555;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 1px 5px;
+    border-radius: 10px;
+    margin-top: -5px; /* Đẩy tên lên sát hoa */
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+}
+        :root { 
+    --primary-color: #2e8b57; 
+    --bg-color: #fdf5e6; 
+    --tree-green: #2e8b57; 
+            
+}
+        @keyframes bloom {
+           0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+        .thank-you-msg {
+            font-family: 'Dancing Script';
+            font-size: 2rem;
+            color: var(--tree-green);
+            margin-top: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div id="page1" class="page active">
+        <h1>Cece Wrapped 2025</h1>
+        <p style="text-align: center; max-width: 500px;">
+            I want to say: Thank you for being a part of my 2025! Without your help and support, I wouldn't have made it.
+        </p>
+        
+       <div class="recap-collage">
+        <img src="Images/Page 1-1.PNG" class="img-1" alt="Recap 1">
+        <img src="Images/Page 1-2.png" class="img-2" alt="Recap 2">
+        <img src="Images/Page 1-3.JPG" class="img-3" alt="Recap 3">
+        <img src="Images/Page 1-4.png" class="img-4" alt="Recap 4">
+        <img src="Images/Page 1-5.jpeg" class="img-5" alt="Recap 5">
+    </div>
+<input type="text" id="userName" placeholder="What's your name?" 
+       style="padding: 10px; border-radius: 20px; border: 1px solid #d63384; margin-bottom: 15px; width: 200px;">
+        <button class="cta-btn" onclick="startJourney()">Click here to see you in my journey</button>
+    </div>
+
+   <div id="page2" class="page">
+    <h2 class="thank-you-msg">Thank you for being my beautiful flower!</h2>
+    <div id="tree-area"></div>
+
+    <button class="cta-btn" style="background: var(--tree-green);" onclick="location.reload()">Back to homepage</button>
+</div>
+
+ <script type="module">
+  // 1. Nhập thư viện Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  // 2. Cấu hình Firebase từ ảnh của bạn
+  const firebaseConfig = {
+    apiKey: "AIzaSyC5ZBRxI1R3a6hQr-d8_XW2Gc3POjgJCCE",
+    authDomain: "cecewrapped.firebaseapp.com",
+    databaseURL: "https://cecewrapped-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "cecewrapped",
+    storageBucket: "cecewrapped.firebasestorage.app",
+    messagingSenderId: "19184758276",
+    appId: "1:19184758276:web:f718eefc721e51a71ccf51"
+  };
+
+  // Khởi tạo
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const flowersRef = ref(db, 'flowers');
+
+  // 3. Hàm vẽ hoa (Sử dụng Sunflower.png đã tách nền)
+  function drawFlower(x, y, name) {
+    const treeArea = document.getElementById('tree-area');
+    
+    // Tạo một khối bao quanh cả hoa và tên
+    const flowerContainer = document.createElement('div');
+    flowerContainer.className = 'flower-container';
+    flowerContainer.style.left = x + 'px';
+    flowerContainer.style.top = y + 'px';
+    flowerContainer.style.position = 'absolute';
+
+    // Tạo hình ảnh hoa
+    const flowerImg = document.createElement('img');
+    flowerImg.src = 'Images/Sunflower.png';
+    flowerImg.className = 'flower-img'; // Đổi class từ .flower thành .flower-img
+
+    // Tạo nhãn tên
+    const nameTag = document.createElement('span');
+    nameTag.className = 'flower-name';
+    nameTag.innerText = name || "Friend"; // Nếu không nhập tên sẽ hiện "Friend"
+
+    flowerContainer.appendChild(flowerImg);
+    flowerContainer.appendChild(nameTag);
+    treeArea.appendChild(flowerContainer);
+}
+
+// 2. Cập nhật onChildAdded để đọc thêm trường 'name'
+onChildAdded(flowersRef, (snapshot) => {
+    const data = snapshot.val();
+    drawFlower(data.x, data.y, data.name);
+});
+
+// 3. Cập nhật startJourney để gửi kèm tên
+window.startJourney = function() {
+    const nameInput = document.getElementById('userName').value;
+    
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'flex';
+    
+    const treeArea = document.getElementById('tree-area');
+    treeArea.style.backgroundImage = "url('Images/growingtrees.gif?t=" + new Date().getTime() + "')";
+
+   setTimeout(() => {
+    const nameInput = document.getElementById('userName').value;
+    // Tọa độ đã được căn chỉnh cho khung tree-area 400x450
+    // randomX: Khoảng từ 120px đến 280px (giữ hoa ở giữa tán)
+    // randomY: Khoảng từ 50px đến 180px (giữ hoa ở phần lá trên cao)
+    const randomX = Math.floor(Math.random() * 300) + 150; 
+    const randomY = Math.floor(Math.random() * 220) + 80;
+       
+        // GỬI CẢ TỌA ĐỘ VÀ TÊN LÊN FIREBASE
+      push(flowersRef, { 
+        x: randomX, 
+        y: randomY,
+        name: nameInput || "Friend"
+    });
+}, 2800);
+};
+</script>
+</body>
+</html>
