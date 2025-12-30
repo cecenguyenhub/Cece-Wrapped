@@ -99,9 +99,9 @@
     </div>
 
     <div id="page2" class="page">
-        <h2 style="font-family:'Dancing Script'; color: var(--tree-green);">Thank you for being my beautiful flower!</h2>
-        <div id="tree-area"></div>
-        <button class="cta-btn" style="background: var(--tree-green);" onclick="location.reload()">Back to homepage</button>
+    <h2 class="thank-you-msg">Thank you for being my beautiful flower!</h2>
+    <div id="tree-area"></div>
+    <div> <button class="cta-btn" style="background: var(--tree-green);" onclick="location.reload()">Back to homepage</button>
     </div>
 
 <script type="module">
@@ -144,18 +144,24 @@
     });
 
     window.startJourney = function() {
-        const nameInput = document.getElementById('userName').value.trim() || "Friend";
-        document.getElementById('page1').classList.remove('active');
-        document.getElementById('page2').style.display = 'flex';
+    const nameInput = document.getElementById('userName').value.trim() || "Friend";
+    document.getElementById('page1').style.display = 'none';
+    document.getElementById('page2').style.display = 'flex';
 
-        setTimeout(() => {
-            // TỌA ĐỘ VÀNG TRÊN TÁN LÁ
-            const randomX = Math.floor(Math.random() * 36) + 32; // 32% đến 68%
-            const randomY = Math.floor(Math.random() * 25) + 15; // 15% đến 40% (phần trên cây)
+    setTimeout(() => {
+        // Tọa độ đã căn chỉnh cho cái cây trong ảnh của bạn:
+        // X: 35% đến 65% là vùng tán lá chính diện
+        // Y: 25% đến 55% là vùng từ đỉnh cây đến giữa thân lá
+        const randomX = Math.floor(Math.random() * 30) + 35; 
+        const randomY = Math.floor(Math.random() * 30) + 25; 
 
-            push(flowersRef, { x: randomX, y: randomY, name: nameInput });
-        }, 1200);
-    };
+        push(flowersRef, { 
+            x: randomX, 
+            y: randomY,
+            name: nameInput
+        });
+    }, 1200);
+};
 </script>
 </body>
 </html>
