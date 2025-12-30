@@ -216,29 +216,27 @@ onChildAdded(flowersRef, (snapshot) => {
 
 // 3. Cập nhật startJourney để gửi kèm tên
 window.startJourney = function() {
-    const nameInput = document.getElementById('userName').value;
-    
-    document.getElementById('page1').style.display = 'none';
-    document.getElementById('page2').style.display = 'flex';
-    
-    const treeArea = document.getElementById('tree-area');
-    treeArea.style.backgroundImage = "url('Images/growingtrees.gif?t=" + new Date().getTime() + "')";
+    // ... các đoạn code cũ giữ nguyên ...
 
-   setTimeout(() => {
-    const nameInput = document.getElementById('userName').value;
-    // Tọa độ đã được căn chỉnh cho khung tree-area 400x450
-    // randomX: Khoảng từ 120px đến 280px (giữ hoa ở giữa tán)
-    // randomY: Khoảng từ 50px đến 180px (giữ hoa ở phần lá trên cao)
-    const randomX = Math.floor(Math.random() * 300) + 150; 
-    const randomY = Math.floor(Math.random() * 220) + 80;
-       
-        // GỬI CẢ TỌA ĐỘ VÀ TÊN LÊN FIREBASE
-      push(flowersRef, { 
-        x: randomX, 
-        y: randomY,
-        name: nameInput || "Friend"
-    });
-}, 2800);
+    setTimeout(() => {
+        const nameInput = document.getElementById('userName').value;
+        const treeArea = document.getElementById('tree-area');
+        
+        // Lấy kích thước thực tế của khung cây lúc đó
+        const rect = treeArea.getBoundingClientRect();
+        
+        // Tính toán tọa độ để hoa luôn nằm trong tán lá (phần trên của cây)
+        // randomX: Từ 25% đến 75% chiều rộng khung cây
+        // randomY: Từ 10% đến 45% chiều cao khung cây (để hoa đậu trên lá)
+        const randomX = Math.floor(Math.random() * (rect.width * 0.5)) + (rect.width * 0.25);
+        const randomY = Math.floor(Math.random() * (rect.height * 0.35)) + (rect.height * 0.1);
+
+        push(flowersRef, { 
+            x: randomX, 
+            y: randomY,
+            name: nameInput || "Friend"
+        });
+    }, 1500); // Giảm thời gian chờ mọc hoa xuống 1.5 giây cho nhanh
 };
 </script>
 </body>
