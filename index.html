@@ -44,22 +44,26 @@
 /* Khung chứa cây: Cố định kích thước để không bị 'bay' */
 #tree-area {
     position: relative;
-    width: 300px;  /* Giảm chiều ngang để hoa không bị bay ra rìa */
-    height: 300px; /* Giữ khung hình vuông */
+    /* Cây to theo chiều cao màn hình, tối đa 600px */
+    width: 80vh; 
+    max-width: 600px; 
+    aspect-ratio: 1/1; 
     margin: 0 auto;
+    
+    /* Dùng 'contain' để ảnh không bị méo và luôn thấy toàn bộ cây */
     background-image: url('Images/growingtrees.gif');
-    background-size: 100% 100%; /* Ép ảnh khít khung */
+    background-size: contain; 
     background-repeat: no-repeat;
-    background-position: center;
-    /* border: 1px solid red; */ /* Mở dòng này để bạn thấy khung cây nằm ở đâu */
-}
-.cta-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    background-position: center bottom;
+    
+    /* Thêm một chút đổ bóng cho cây trông xịn hơn */
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05));
 }
 
+/* Điều chỉnh lại nút bấm để không che mất cây */
+.cta-container {
+    margin-top: 10px;
+}
 #page2 .cta-btn {
     width: 200px !important; /* Ép cứng chiều rộng nút */
     display: block;
@@ -167,11 +171,11 @@
     document.getElementById('page2').style.display = 'flex';
 
     setTimeout(() => {
-        // TỌA ĐỘ VÀNG (Dựa trên khung hình vuông 1/1):
-        // X: 25% đến 75% (loại bỏ 2 bên rìa ngoài tán lá)
-        // Y: 15% đến 45% (chỉ nằm ở phần ngọn và tán lá, không rơi xuống gốc)
-        const randomX = Math.floor(Math.random() * 50) + 25; 
-        const randomY = Math.floor(Math.random() * 30) + 15; 
+        // TỌA ĐỘ MỚI CHO CÂY TO:
+        // X: 30% đến 70% (Tán lá rộng ra hai bên)
+        // Y: 10% đến 40% (Tập trung ở nửa trên của khung hình vuông)
+        const randomX = Math.floor(Math.random() * 40) + 30; 
+        const randomY = Math.floor(Math.random() * 30) + 10; 
 
         push(flowersRef, { 
             x: randomX, 
